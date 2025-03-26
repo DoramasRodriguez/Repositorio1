@@ -2,7 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 
-url = "https://es.wikipedia.org/wiki/Andorra"
+pais = input("Introduce el nombre del país: ")
+
+# URL base
+urlbase = "https://es.wikipedia.org/wiki/"
+
+# Concatenar la variable pais a la URL
+url = urlbase + pais
 
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
@@ -42,10 +48,10 @@ c = conn.cursor()
 
 
 todos_paises = [
-    (superficie, población, pib),
+    (pais, superficie, población, pib),
 ]
 
-c.executemany("INSERT INTO datospaises VALUES (?, ?, ?)", todos_paises)
+c.executemany("INSERT INTO datospaises VALUES (?, ?, ?, ?)", todos_paises)
 
 conn.commit()
 conn.close()
